@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block contents %}
+    <!-- Register Section -->
+    <section id="register" class="register section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Register</h2>
+          <p>Create your account by filling out the details below.</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+  
+          <div class="row gy-4 justify-content-center">
+  
+            <div class="col-lg-6">
+                {% if messages %}
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for message in messages %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+              <form method="post" action="{% url 'user_registration' %}" data-aos="fade-up" data-aos-delay="200">
+                {% csrf_token %}
+                <div class="row gy-4">
+  
+                  <div class="col-md-6">
+                    <label for="first-name-field" class="pb-2">First Name</label>
+                    <input type="text" name="first_name" id="first-name-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-6">
+                    <label for="last-name-field" class="pb-2">Last Name</label>
+                    <input type="text" name="last_name" id="last-name-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-12">
+                    <label for="username-field" class="pb-2">Username</label>
+                    <input type="text" name="username" id="username-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-12">
+                    <label for="email-field" class="pb-2">Email</label>
+                    <input type="email" name="email" id="email-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-12">
+                    <label for="password-field" class="pb-2">Password</label>
+                    <input type="password" name="password" id="password-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-12">
+                    <label for="confirm-password-field" class="pb-2">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm-password-field" class="form-control" required="">
+                  </div>
+  
+                  <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                  </div>
+  
+                  <div class="col-md-12 text-center">
+                    <p>Already have an account? <a href="{% url 'login_page' %}">Login here</a>.</p>
+                  </div>
+  
+                </div>
+              </form>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </section>
+{% endblock %}
