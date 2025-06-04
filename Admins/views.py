@@ -8,6 +8,8 @@ import base64
 from django.core.paginator import Paginator
 import pandas as pd
 from django.core.files.storage import FileSystemStorage
+from .models import TestRunReport # Added for TestRunReport
+# from django.shortcuts import render # render is already imported via the first line
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.svm import SVC
@@ -124,3 +126,13 @@ def admindisplaypredictions(request):
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'Admin/admindisplaypredictions.html', {'page_obj': page_obj})
+
+def view_test_report(request):
+    latest_report = TestRunReport.objects.order_by('-run_at').first()
+    # Or: latest_report = TestRunReport.objects.latest('run_at')
+    # .first() is safer if the table might be empty.
+
+    context = {
+        'report': latest_report,
+    }
+    return render(request, 'Admin/test_report.html', context)
