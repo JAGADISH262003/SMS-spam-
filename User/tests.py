@@ -27,6 +27,14 @@ class UserViewsTest(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='password123')
         self.userpredict_url = reverse('userpredict')
+        self.userhome_url = reverse('userhome') # Added for userhome test
+
+    def test_userhome_get(self): # New test for userhome
+        self.client.login(username='testuser', password='password123')
+        response = self.client.get(self.userhome_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'User/userhome.html')
+        self.assertEqual(response.context['user'], self.user)
 
     def test_userpredict_get(self):
         self.client.login(username='testuser', password='password123')

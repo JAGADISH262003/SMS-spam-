@@ -1,0 +1,43 @@
+{% extends "Admin/adminbase.html" %}
+
+{% block contents %}
+<div class="container mt-4">
+    <h2>Test Run Report</h2>
+    {% if report %}
+        <div class="card">
+            <div class="card-header">
+                Report from: {{ report.run_at|date:"Y-m-d H:i:s T" }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Summary</h5>
+                <p><strong>Overall Status:</strong>
+                    {% if report.was_successful %}
+                        <span class="badge bg-success">Success</span>
+                    {% else %}
+                        <span class="badge bg-danger">Failed/Errors</span>
+                    {% endif %}
+                </p>
+                <ul>
+                    <li>Total Tests: {{ report.total_tests }}</li>
+                    <li>Passed: {{ report.passed_tests }}</li>
+                    <li>Failed: {{ report.failed_tests }}</li>
+                    <li>Errors: {{ report.errors }}</li>
+                    <li>Skipped: {{ report.skipped_tests }}</li>
+                </ul>
+                <hr>
+                <h5 class="card-title">Full Output</h5>
+                <pre style="white-space: pre-wrap; word-wrap: break-word; background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; max-height: 600px; overflow-y: auto;">{{ report.report_output }}</pre>
+            </div>
+            <div class="card-footer">
+                Report ID: {{ report.id }}
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            No test reports found in the database. Please run the test reporting command first.
+            <br>
+            Example command: <code>python manage.py run_tests_and_report</code>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
