@@ -104,60 +104,13 @@ def adminaccuracy(request):
         data = pd.read_csv(file_path)
         data['Message'] = data['Message'].astype(str)
         
-        # Split data
-        X = data['Message']
-        y = data['EncodedClass']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-        
-        # Feature Extraction
-        vectorizer = TfidfVectorizer()
-        X_train_tfidf = vectorizer.fit_transform(X_train)
-        X_test_tfidf = vectorizer.transform(X_test)
-        
-        # Initialize tokenizer for deep learning models
-        tokenizer = Tokenizer()
-        tokenizer.fit_on_texts(X_train)
-        X_train_seq = tokenizer.texts_to_sequences(X_train)
-        X_test_seq = tokenizer.texts_to_sequences(X_test)
-        X_train_pad = pad_sequences(X_train_seq, maxlen=100, padding='post')
-        X_test_pad = pad_sequences(X_test_seq, maxlen=100, padding='post')
-        vocab_size = len(tokenizer.word_index) + 1
-
-        # Algorithms and Accuracies
-        results = []
-
-        # SVM
-        svm_model = SVC()
-        svm_model.fit(X_train_tfidf, y_train)
-        svm_pred = svm_model.predict(X_test_tfidf)
-        results.append({'Model': 'SVM', 'Accuracy': accuracy_score(y_test, svm_pred)})
-
-        # Random Forest
-        rf_model = RandomForestClassifier()
-        rf_model.fit(X_train_tfidf, y_train)
-        rf_pred = rf_model.predict(X_test_tfidf)
-        results.append({'Model': 'Random Forest', 'Accuracy': accuracy_score(y_test, rf_pred)})
-
-        # LSTM+CNN Hybrid
-        hybrid_model = Sequential([
-            Embedding(input_dim=vocab_size, output_dim=128, input_length=100),
-            LSTM(128, return_sequences=True),
-            Conv1D(filters=64, kernel_size=3, activation='relu'),
-            MaxPooling1D(pool_size=2),
-            GlobalMaxPooling1D(),
-            Dense(64, activation='relu'),
-            Dense(1, activation='sigmoid')
-        ])
-        hybrid_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-        hybrid_model.fit(X_train_pad, y_train, validation_data=(X_test_pad, y_test), epochs=5, batch_size=32, verbose=0)
-        loss, accuracy = hybrid_model.evaluate(X_test_pad, y_test, verbose=0)
-        results.append({'Model': 'LSTM+CNN Hybrid', 'Accuracy': accuracy})
+        # TODO: Implement evaluation against a pre-trained model
         
         # Delete uploaded file after processing
         fs.delete(filename)
 
-        # Pass results to template
-        return render(request, 'Admin/adminaccuracy.html', {'results': results})
+        # Pass results to template (results will be empty for now)
+        return render(request, 'Admin/adminaccuracy.html', {'results': []})
 
     return render(request, 'Admin/adminaccuracy.html')
 

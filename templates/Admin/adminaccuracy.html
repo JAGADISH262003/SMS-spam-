@@ -34,13 +34,20 @@
             {% for result in results %}
             <tr>
               <td>{{ result.Model }}</td>
-              <td>{{ result.Accuracy|floatformat:2 }}%</td>
+              <td>{{ result.Accuracy|floatformat:2 }}%</td> {# Assuming Accuracy is a float like 0.95 #}
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
+    {% else %}
+    {# Add a check for the request method to only show after a POST #}
+    {% if request.method == 'POST' %}
+    <div class="mt-5">
+      <p class="text-center">Model training/evaluation has been disabled in this version. Uploaded file processed.</p>
+    </div>
+    {% endif %}
     {% endif %}
   </div>
 

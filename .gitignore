@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.so
+*.env
+env/
+venv/
+
+# Django
+*.sqlite3
+db.sqlite3
+media/
+
+# Jupyter Notebook
+*.ipynb_checkpoints
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Project specific data files (assuming these are for training/setup and not runtime)
+model/dataset.csv
+model/Spam_SMS.csv
+
+# Third-party static vendor libraries
+# Consider using a package manager (like npm/yarn) and a build step,
+# or using CDNs for these instead of committing them to the repository.
+static/vendor/
